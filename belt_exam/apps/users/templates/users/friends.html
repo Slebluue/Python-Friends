@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home</title>
+    {% load static %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'users/css/style.css' %}" />
+    <script src="{% static 'users/javascript/custom.js' %}"></script>
+</head>
+<body>
+    <div class="container">
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                    <a class="navbar-brand" href="{% url 'users:friends' %}">friendsRfun.com</a>
+                    </div>
+                    <ul class="nav navbar-nav">
+                    <li><a href="{% url 'users:friends' %}">Home</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{% url 'users:show' User.id %}"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+                    <li><a href="{% url 'users:logout' %}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-login">
+                        <div class="col-md-4">
+                            <h3>Welcome, {{User.first_name}}</h3>
+                        </div>
+                        <div class="col-md-8" style="text-align: right;margin-top: 20px;margin-bottom: 10px;">
+                        </div>
+                    </div>        
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    {% if friends %}
+                    <p>All friends</p>
+                    <table class="table">
+                        <tr>
+                            <th>Name</th>
+                            <th>Actions</th>
+                        </tr>
+                        
+                        {% for friend in friends %}
+                        <tr>
+                            <td><a href="{% url 'users:show' friend.id %}">{{friend.first_name}} {{friend.last_name}}</a></td>
+                            <td><a class="btn btn-default" href="{% url 'users:show' friend.id %}">View Profile</a> <a class="btn btn-default" href="{% url 'users:remove' friend.id %}">Remove Friend</a></td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                    <p style="text-align: center">Sorry {{User.first_name}}, you have no friends.. </p> 
+                    {% endif %}  
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p>All Users</p>
+                    <table class="table">
+                        <tr>
+                            <th>Name</th>
+                            <th>Actions</th>
+                        </tr>
+                        {% for user in users %}
+                        <tr>
+                            <td><a href="{% url 'users:show' user.id %}">{{user.first_name}} {{user.last_name}}</a></td>
+                            <td><a class="btn btn-default" href="{% url 'users:add' user.id %}">Add Friend</a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+</body>
+</html>
